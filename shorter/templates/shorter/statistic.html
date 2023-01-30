@@ -1,0 +1,14 @@
+<table>
+    <tr>
+        <th>URL</th>
+        <th>Code</th>
+        <th>Usage count</th>
+    </tr>
+    {% for url in urls %}
+    <tr>
+        <td align="center">{{ url.url }}</td>
+        <td align="center">{{ url.code }}</td>
+        <td align="center">{{ url.usage_counter }}</td>
+    </tr>
+    {% endfor %}
+</table>    

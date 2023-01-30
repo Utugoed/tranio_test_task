@@ -1,0 +1,33 @@
+
+services:
+  postgres_db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "tranio", "-U", "tranio" ]
+      timeout: 5s
+      interval: 5s
+      retries: 5
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    networks:
+      - backend
+
+  web_app:
+    build: ./
+    ports:
+     - "80:8000"
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+    name: backend
+  
